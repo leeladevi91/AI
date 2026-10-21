@@ -1,0 +1,52 @@
+AI Engineering | Quick Revision
+LLM • Embeddings • Vector Database • RAG • Incremental Updates
+Goal: Explain the full RAG flow from memory in five minutes.
+1 The complete RAG flow
+2 Five concepts to remember
+Concept What it does Memory trick
+LLM Generates a natural-language response. Answer writer
+Embedding Represents text as a vector of numbers. Meaning numbers→
+Vector database Stores and searches vectors, text and
+metadata. Similarity search
+RAG Retrieves relevant information, then
+uses an LLM to answer. Open-book exam
+Chunking Splits long documents into searchable
+passages. Smaller pieces
+3 LLM alone vs. RAG
+LLM alone RAG-powered LLM
+Question LLM Answer→ → Question Retrieve evidence LLM Answer→ → →
+May not know updated internal policies. Can use current documents if the retrieval index is updated.
+AI ENGINEERING / STUDY NOTES
+LLM • EMBEDDINGS • VECTOR SEARCH • RAG | REVISION SHEET
+AI Engineering | Interview Memory Sheet
+Real examples, incremental pipelines, and a self-check
+4 Semantic retrieval: meaning, not just words
+User asks: “How can I get my money back?”
+Document Match? Why
+Refunds within 15 days YES Same intent as “money back,” despite
+different words.
+Password reset instructions NO Different meaning.
+Embedding model converts the question to numbers. Vector search finds similar stored vectors. LLM reads the→ → →
+retrieved refund text and answers.
+5 Incremental RAG = your Data Engineering skills
+When a policy changes from 30 days to 15 days, update the affected document text and vectors. Do not rebuild every
+document unnecessarily.
+Data Engineering AI / RAG equivalent
+CDC / change events Detect new, updated, deleted documents
+Primary key Stable document ID and chunk ID
+MERGE / UPSERT Update stored vectors and associated text
+Watermark / version Ignore stale, out-of-order updates
+Deduplication / retries Avoid duplicate chunks and repeated processing
+Data quality / reconciliation Validate source text; detect missing or stale vectors
+6 30-second interview explanation
+“An LLM generates answers. In RAG, we first retrieve relevant information from external sources, such as company
+documents, and provide it as context to the LLM. We often split documents into chunks, create embeddings, and use vector
+search to find relevant passages. The data pipeline must keep documents, embeddings, and metadata current as sources
+change.”
+7 Quick self-check
+1. Who generates the final answer: the vector database or the LLM?
+2. What turns text into numerical vectors?
+3. Does RAG always require a vector database?
+4. What should happen when a policy document is updated?
+Answers: 1) LLM. 2) Embedding model. 3) No—keyword or hybrid retrieval also works. 4) Update the changed text,
+embeddings, and index; remove obsolete chunks.
